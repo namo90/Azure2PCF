@@ -9,4 +9,5 @@ public interface UserDataService {
 	public UserData save(UserData userdata);
 	public String tokenGenerateForUser(UserDataDto userdto) throws Exception;
 public List<UserData> getAllUsers();
+public String getUserid(String name);
 }

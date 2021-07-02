@@ -38,8 +38,8 @@ public class CustomUserDetailService  implements UserDetailsService{
 	}
 	public UserData getUserDetails(String username) {
 		
-		   Optional<UserData> user=	repository.findById(username);
-		 
+		   Optional<UserData> user=	repository.findByusername(username);
+		 System.out.println("hello namoooooo"+"-----"+user);
 		   UserData u=null;
 		    if(user!=null) {
 		    	

@@ -20,4 +20,6 @@ private int port;
 private String username;
 @Value("${spring.mail.password}")	
 private String password;
+@Value("${spring.mail.mailid}")	
+private String email;
 }

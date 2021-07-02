@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.app.Azure2PCF.customException.EmptyInputException;
 import com.app.Azure2PCF.dto.UserDataDto;
 import com.app.Azure2PCF.helper.JwtUtil;
 import com.app.Azure2PCF.model.UserData;
@@ -34,9 +35,11 @@ public class UserDataServiceImpl implements UserDataService {
 
 	@Override
 	public UserData save(UserData userdata) {
-		UserData userData = userRepository
-				.save(new UserData(userdata.getUsername(), bCryptPasswordEncoder.encode(userdata.getPassword())));
-
+		
+		if(userdata.getUsername().isEmpty()|| userdata.getUsername().length()==0) {
+			throw new EmptyInputException("500","user is empty input");
+		}
+		UserData userData =userRepository.save(userdata);
 		return userData;
 	}
 
@@ -51,7 +54,7 @@ public class UserDataServiceImpl implements UserDataService {
 			System.out.println("Hi");
 		} catch (UsernameNotFoundException user) {
 			user.printStackTrace();
-			throw new Exception("Bad Credential Exception");
+			throw new Exception("username Credential Exception");
 		} catch (BadCredentialsException e) {
 			e.printStackTrace();
 			throw new Exception("Bad Credential Exception");
@@ -59,7 +62,9 @@ public class UserDataServiceImpl implements UserDataService {
 
 		// fine are go a head
 		UserDetails userDetails = this.customuserdetailsservice.loadUserByUsername(userdto.getUsername());
-		System.out.println("Hello token generater-1");
+		if (userDetails.getUsername().isEmpty() || userDetails.getUsername().length()==0) {
+			throw new EmptyInputException("700", "getting username here empty");
+		}
 		String token = this.jwtutil.generateToken(userDetails);
 		System.out.println("Hello token generater-2");
 		System.out.println(token);
@@ -69,8 +74,16 @@ public class UserDataServiceImpl implements UserDataService {
 
 	@Override
 	public List<UserData> getAllUsers() {
-	List<UserData>	userdata=userRepository.findAll();
+		List<UserData> userdata=userRepository.findAll();
 		return userdata;
+	}
+
+	@Override
+	public String getUserid(String name) {
+		if (name.isEmpty() || name.length()==0) {
+			throw new EmptyInputException("700", "getting username here empty");
+		}
+		return userRepository.selectRecordByuserId(name);
 	}
 
 }
