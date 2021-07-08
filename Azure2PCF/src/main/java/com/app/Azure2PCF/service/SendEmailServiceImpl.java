@@ -28,9 +28,9 @@ public class SendEmailServiceImpl implements SendEmailService {
 
 		// create email instance
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
-		mailMessage.setFrom(userDataDto.getEmail());
+		mailMessage.setFrom(this.mailconf.getFromemail());
 		mailMessage.setTo(this.mailconf.getEmail());
-		mailMessage.setSubject(userDataDto.getSubject() + " " + userDataDto.getUsername());
+		mailMessage.setSubject(this.mailconf.getMailSubject() + " " + userDataDto.getUsername());
 		mailMessage.setText(userDataDto.getText());
 
 		// send mail

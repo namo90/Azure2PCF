@@ -29,7 +29,7 @@ import com.app.Azure2PCF.service.UserDataServiceImpl;
 
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @ResponseBody
 @SessionAttributes("name,password")
 public class JwtController {

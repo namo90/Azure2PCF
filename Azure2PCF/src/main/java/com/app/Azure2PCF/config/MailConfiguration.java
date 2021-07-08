@@ -22,4 +22,10 @@ private String username;
 private String password;
 @Value("${spring.mail.mailid}")	
 private String email;
+@Value("${spring.mail.fromid}")	
+private String fromemail;
+@Value("$spring.mail.subject}")	
+private String mailSubject;
+@Value("${spring.mail.text}")	
+private String mailText;
 }
